@@ -16,6 +16,8 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    //user id (Comunicacion entre microservicios)
+    //service id (Comunicacion entre microservicios)
     private Integer rating;
     private String review;
     private Date send_date;

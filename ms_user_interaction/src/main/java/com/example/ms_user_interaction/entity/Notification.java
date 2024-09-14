@@ -16,8 +16,10 @@ public class Notification {
     private String message;
     private Date send_date;
     private String status;
+    //user id (Comunicacion entre microservicios)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Review review;
+
 }
