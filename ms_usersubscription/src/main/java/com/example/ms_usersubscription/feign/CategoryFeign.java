@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
-@FeignClient(name = "ms-services")
+@FeignClient(name = "ms-services-service")
 public interface CategoryFeign {
     @GetMapping("/categories/{id}")
     ResponseEntity<CategoryDTO> getById(@PathVariable("id") Integer id);
