@@ -1,28 +1,26 @@
 package com.example.ms_usersubscription.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.ms_usersubscription.dto.ServiceDTO;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
 @Entity
 public class User {
-     @Id
-     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String email;
     private String password;
+    private String role;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String status;
 
-    private Role role;
-    private Date starDate;
-    private Date endDate;
-    private Boolean status;
-    public enum Role {administrador,colaborador, invitado} //0=administrador, 1=colaborador, 2=invitado
-
-
+    @Transient
+    private ServiceDTO service; // Transient because it will be populated via Feign
 }

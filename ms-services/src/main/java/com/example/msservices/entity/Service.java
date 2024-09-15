@@ -12,7 +12,8 @@ public class Service {
     private String name;
     private String description;
     private Float price;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
 }

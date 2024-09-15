@@ -5,9 +5,11 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@EnableFeignClients
 public class MsUsersubscriptionApplication {
 
 	public static void main(String[] args) {
@@ -21,6 +23,7 @@ public class MsUsersubscriptionApplication {
 				.description("servicios web usersubscription")
 				.termsOfService("http:// swagger.io/terms")
 				.license(new License().name("Apache 2.0").url("http://springdoc.org"))
+
 		);
 	}
 

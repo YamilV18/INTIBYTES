@@ -1,11 +1,11 @@
 package com.example.ms_usersubscription.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.ms_usersubscription.dto.ServiceDTO;
+import jakarta.persistence.*;
 import lombok.Data;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -13,9 +13,11 @@ public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Date starDate;
-    private Date endDate;
-    private Status status;
     private Integer userId;
-    public enum Status {inactivo,activo}
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String status;
+
+    @OneToMany(mappedBy = "subscription", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<User> users;
 }
