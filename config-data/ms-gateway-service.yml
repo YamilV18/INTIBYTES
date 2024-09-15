@@ -34,11 +34,11 @@ spring:
             - Path=/service/**
 
         - id: ms-userinteraction-service-notification
-          uri: lb://ms-user_interaction-service
+          uri: lb://ms-userinteraction-service
           predicates:
             - Path=/notification/**
         - id: ms-userinteraction-service-review
-          uri: lb://ms-user_interaction-service
+          uri: lb://ms-userinteraction-service
           predicates:
             - Path=/review/**
 
