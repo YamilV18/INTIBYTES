@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-BillingReports-service
+    name: ms-BillingReports
   profiles:
     active: development
   config:
