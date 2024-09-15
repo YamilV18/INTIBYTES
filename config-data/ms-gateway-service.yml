@@ -33,11 +33,11 @@ spring:
           predicates:
             - Path=/service/**
 
-        - id: ms-user_interaction-service-notification
+        - id: ms-userinteraction-service-notification
           uri: lb://ms-user_interaction-service
           predicates:
             - Path=/notification/**
-        - id: ms-user_interaction-service-review
+        - id: ms-userinteraction-service-review
           uri: lb://ms-user_interaction-service
           predicates:
             - Path=/review/**

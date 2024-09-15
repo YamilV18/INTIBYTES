@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-user_interaction-service
+    name: ms-userinteraction-service
   profiles:
     active: development
   config:
