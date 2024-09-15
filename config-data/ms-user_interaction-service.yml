@@ -1,0 +1,22 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: ms-user_interaction-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/ms_user_interaction
+    username: root
+    password: ""
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
