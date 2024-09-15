@@ -1,22 +1,19 @@
 server:
   port: 8081
-spring:
-  application:
-    name: ms-BillinReports-service
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/ms_report
-    username: root
-    password: ""
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
 springdoc:
   api-docs:
     enabled: true
   swagger-ui:
     enabled: true
     path: /doc/swagger-ui.html
+
+spring:
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ms_report
+    username: root
+    password:
