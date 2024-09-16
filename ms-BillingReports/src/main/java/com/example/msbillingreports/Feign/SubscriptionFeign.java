@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
-@FeignClient(name="ms-usersubscription-service", path="/subscription")
+@FeignClient(name="ms-usersubscription-service-subscription", path="/subscription")
 public interface SubscriptionFeign {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<SubscriptionDto>> listById(@PathVariable Integer id);
