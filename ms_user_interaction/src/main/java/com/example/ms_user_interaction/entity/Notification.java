@@ -1,6 +1,7 @@
 package com.example.ms_user_interaction.entity;
 
 
+import com.example.ms_user_interaction.dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,11 +17,13 @@ public class Notification {
     private String message;
     private Date send_date;
     private String status;
-    private Integer user_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Review review;
 
+    private Integer userId;
+    @Transient
+    private UserDto user;
 }

@@ -16,8 +16,6 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer user_id;
-    private Integer service_id;
     private Integer rating;
     private String review;
     private Date send_date;

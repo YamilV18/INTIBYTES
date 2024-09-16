@@ -1,9 +1,7 @@
 package com.example.msbillingreports.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.msbillingreports.Dto.UserDto;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Date;
@@ -14,8 +12,10 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer service_id;
-    private Integer user_id;
     private Date generation_date;
     private String content;
+
+    private Integer userId;
+    @Transient
+    private UserDto user;
 }
