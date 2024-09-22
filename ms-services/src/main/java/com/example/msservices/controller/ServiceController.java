@@ -23,7 +23,7 @@ public class ServiceController {
         return ResponseEntity.ok(serviceService.findById(id));
     }
     @PostMapping
-    public ResponseEntity<Service> create(Service service) {
+    public ResponseEntity<Service> create(@RequestBody Service service) {
         return ResponseEntity.ok(serviceService.save(service));
     }
     @PutMapping("/{id}")
