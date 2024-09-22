@@ -13,17 +13,35 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BillingServiceImpl implements BillingService {
     @Autowired
     private BillingRepository billingRepository;
     @Autowired
-    private UserSubscriptionFeign userSubscriptionFeign;
+    private UserSubscriptionFeign userSubFeign;
 
     @Override
     public List<Billing> list() {
-        return billingRepository.findAll();
+        List<Billing> billings = billingRepository.findAll();
+
+        // Para cada orden en la lista, obtenemos los detalles del cliente y productos
+        return billings.stream().map(billing -> {
+            // Obtener cliente
+            ResponseEntity<SubscriptionDto> subscriptionResponse = userSubFeign.listSubById(billing.getSubscriptionId());
+            if (subscriptionResponse.getStatusCode().is2xxSuccessful()) {
+                SubscriptionDto subscriptiondto = subscriptionResponse.getBody();  // Sin Optional
+                if (subscriptiondto != null) {
+                    billing.setSubscription(subscriptiondto);
+                    System.out.println("Cliente obtenido: " + subscriptiondto); // Log para verificar cliente
+                } else {
+                    System.out.println("Cliente es null"); // Log para verificar si es null
+                }
+            }
+
+            return billing;
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -33,7 +51,7 @@ public class BillingServiceImpl implements BillingService {
             Billing billing = billingOpt.get();
 
             // Obtener cliente (sin Optional)
-            ResponseEntity<SubscriptionDto> subscriptionResponse = userSubscriptionFeign.listSubById(billing.getSubscriptionId());
+            ResponseEntity<SubscriptionDto> subscriptionResponse = userSubFeign.listSubById(billing.getSubscriptionId());
             if (subscriptionResponse.getStatusCode().is2xxSuccessful()) {
                 SubscriptionDto subscriptiondto = subscriptionResponse.getBody();  // Sin Optional
                 if (subscriptiondto != null) {
@@ -53,13 +71,46 @@ public class BillingServiceImpl implements BillingService {
 
     @Override
     public Billing save(Billing billing) {
-        return billingRepository.save(billing);
+        // Guardar el objeto Billing en el repositorio
+        Billing savedBilling = billingRepository.save(billing);
+
+        // Obtener cliente (sin Optional) si hay un subscriptionId
+        if (savedBilling.getSubscriptionId() != null) {
+            ResponseEntity<SubscriptionDto> subscriptionResponse = userSubFeign.listSubById(savedBilling.getSubscriptionId());
+            if (subscriptionResponse.getStatusCode().is2xxSuccessful()) {
+                SubscriptionDto subscriptionDto = subscriptionResponse.getBody();  // Sin Optional
+                if (subscriptionDto != null) {
+                    savedBilling.setSubscription(subscriptionDto);
+                    System.out.println("Cliente obtenido: " + subscriptionDto); // Log para verificar cliente
+                } else {
+                    System.out.println("Cliente es null"); // Log para verificar si es null
+                }
+            }
+        }
+
+        return savedBilling;
     }
 
     @Override
     public Billing update(Billing billing) {
-        return billingRepository.save(billing);
-    }
+        // Guardar cambios de Billing en el repositorio
+        Billing savedBilling = billingRepository.save(billing);
+
+        // Obtener cliente (sin Optional) si hay un subscriptionId
+        if (savedBilling.getSubscriptionId() != null) {
+            ResponseEntity<SubscriptionDto> subscriptionResponse = userSubFeign.listSubById(savedBilling.getSubscriptionId());
+            if (subscriptionResponse.getStatusCode().is2xxSuccessful()) {
+                SubscriptionDto subscriptionDto = subscriptionResponse.getBody();  // Sin Optional
+                if (subscriptionDto != null) {
+                    savedBilling.setSubscription(subscriptionDto);
+                    System.out.println("Cliente obtenido: " + subscriptionDto); // Log para verificar cliente
+                } else {
+                    System.out.println("Cliente es null"); // Log para verificar si es null
+                }
+            }
+        }
+
+        return savedBilling;    }
 
     @Override
     public void delete(Integer id) {
