@@ -30,6 +30,6 @@ eureka:
 feign:
   client:
     config:
-      ms-usersubscription-alternative:
+      ms-usersubscription-service:
         connectTimeout: 5000
         readTimeout: 5000
