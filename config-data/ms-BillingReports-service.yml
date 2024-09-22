@@ -26,10 +26,3 @@ eureka:
       defaultZone: http://localhost:8090/eureka
   instance:
     hostname: localhost
-
-feign:
-  client:
-    config:
-      ms-usersubscription-service:
-        connectTimeout: 5000
-        readTimeout: 5000

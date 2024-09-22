@@ -3,8 +3,7 @@ package com.example.msbillingreports.Service.impl;
 import com.example.msbillingreports.Dto.SubscriptionDto;
 import com.example.msbillingreports.Entity.Billing;
 
-import com.example.msbillingreports.Feign.SubscriptionFeign;
-import com.example.msbillingreports.Feign.SubscriptionFeign;
+import com.example.msbillingreports.Feign.UserSubscriptionFeign;
 import com.example.msbillingreports.Repository.BillingRepository;
 
 import com.example.msbillingreports.Service.BillingService;
@@ -20,7 +19,7 @@ public class BillingServiceImpl implements BillingService {
     @Autowired
     private BillingRepository billingRepository;
     @Autowired
-    private SubscriptionFeign subscriptionFeign;
+    private UserSubscriptionFeign userSubscriptionFeign;
 
     @Override
     public List<Billing> list() {
@@ -34,7 +33,7 @@ public class BillingServiceImpl implements BillingService {
             Billing billing = billingOpt.get();
 
             // Obtener cliente (sin Optional)
-            ResponseEntity<SubscriptionDto> subscriptionResponse = subscriptionFeign.listById(billing.getSubscriptionId());
+            ResponseEntity<SubscriptionDto> subscriptionResponse = userSubscriptionFeign.listSubById(billing.getSubscriptionId());
             if (subscriptionResponse.getStatusCode().is2xxSuccessful()) {
                 SubscriptionDto subscriptiondto = subscriptionResponse.getBody();  // Sin Optional
                 if (subscriptiondto != null) {

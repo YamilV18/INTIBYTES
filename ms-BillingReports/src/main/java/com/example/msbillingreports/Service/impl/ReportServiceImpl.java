@@ -3,7 +3,7 @@ package com.example.msbillingreports.Service.impl;
 import com.example.msbillingreports.Dto.UserDto;
 import com.example.msbillingreports.Entity.Billing;
 import com.example.msbillingreports.Entity.Report;
-import com.example.msbillingreports.Feign.UserFeign;
+import com.example.msbillingreports.Feign.UserSubscriptionFeign;
 import com.example.msbillingreports.Repository.ReportRepository;
 import com.example.msbillingreports.Service.ReportService; // Asegúrate de importar la interfaz
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class ReportServiceImpl implements ReportService {  // Implementa la inte
     @Autowired
     private ReportRepository reportRepository;
     @Autowired
-    private UserFeign userFeign;
+    private UserSubscriptionFeign userSubscriptionFeign;
 
     @Override
     public List<Report> list() {
@@ -33,7 +33,7 @@ public class ReportServiceImpl implements ReportService {  // Implementa la inte
             Report report = reportOpt.get();
 
             // Obtener cliente (sin Optional)
-            ResponseEntity<UserDto> userResponse = userFeign.listById(report.getUserId());
+            ResponseEntity<UserDto> userResponse = userSubscriptionFeign.listUserById(report.getUserId());
             if (userResponse.getStatusCode().is2xxSuccessful()) {
                 UserDto userdto = userResponse.getBody();  // Sin Optional
                 if (userdto != null) {
