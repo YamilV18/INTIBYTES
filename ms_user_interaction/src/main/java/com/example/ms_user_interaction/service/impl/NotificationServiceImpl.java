@@ -32,21 +32,23 @@ public class NotificationServiceImpl implements NotificationService {
         if (notificationOpt.isPresent()) {
             Notification notification = notificationOpt.get();
 
-            // Obtener cliente
-            ResponseEntity<Optional<UserDto>> userResponse = userFeign.listById(notification.getUserId());
+            // Obtener cliente (sin Optional)
+            ResponseEntity<UserDto> userResponse = userFeign.listById(notification.getUserId());
             if (userResponse.getStatusCode().is2xxSuccessful()) {
-                Optional<UserDto> userdto = userResponse.getBody();
-                if (userdto.isPresent()) {
-                    notification.setUser(userdto.get());
+                UserDto userdto = userResponse.getBody();  // Sin Optional
+                if (userdto != null) {
+                    notification.setUser(userdto);
                     System.out.println("Cliente obtenido: " + userdto); // Log para verificar cliente
                 } else {
                     System.out.println("Cliente es null"); // Log para verificar si es null
                 }
             }
+
             //notification.setUser(user);
             return Optional.of(notification);
         }
         return Optional.empty();
+
     }
 
     @Override

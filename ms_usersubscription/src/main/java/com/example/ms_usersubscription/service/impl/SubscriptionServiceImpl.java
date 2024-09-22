@@ -42,19 +42,17 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         if (subscriptionOpt.isPresent()) {
             Subscription subscription = subscriptionOpt.get();
 
-            // Obtener cliente
-            ResponseEntity<Optional<ServiceDto>> serviceResponse = serviceFeign.getById(subscription.getServiceId());
+            // Obtener cliente (sin Optional)
+            ResponseEntity<ServiceDto> serviceResponse = serviceFeign.getById(subscription.getServiceId());
             if (serviceResponse.getStatusCode().is2xxSuccessful()) {
-                Optional<ServiceDto> servicedto = serviceResponse.getBody();
-                if (servicedto.isPresent()) {
-                    subscription.setService(servicedto.get());
+                ServiceDto servicedto = serviceResponse.getBody();  // Sin Optional
+                if (servicedto != null) {
+                    subscription.setService(servicedto);
                     System.out.println("Cliente obtenido: " + servicedto); // Log para verificar cliente
                 } else {
                     System.out.println("Cliente es null"); // Log para verificar si es null
                 }
             }
-
-
 
             //subscription.setUser(user);
             return Optional.of(subscription);

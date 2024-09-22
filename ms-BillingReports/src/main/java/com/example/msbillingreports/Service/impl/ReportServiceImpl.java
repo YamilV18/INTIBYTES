@@ -32,17 +32,18 @@ public class ReportServiceImpl implements ReportService {  // Implementa la inte
         if (reportOpt.isPresent()) {
             Report report = reportOpt.get();
 
-            // Obtener cliente
-            ResponseEntity<Optional<UserDto>> userResponse = userFeign.listById(report.getUserId());
+            // Obtener cliente (sin Optional)
+            ResponseEntity<UserDto> userResponse = userFeign.listById(report.getUserId());
             if (userResponse.getStatusCode().is2xxSuccessful()) {
-                Optional<UserDto> userdto = userResponse.getBody();
-                if (userdto.isPresent()) {
-                    report.setUser(userdto.get());
+                UserDto userdto = userResponse.getBody();  // Sin Optional
+                if (userdto != null) {
+                    report.setUser(userdto);
                     System.out.println("Cliente obtenido: " + userdto); // Log para verificar cliente
                 } else {
                     System.out.println("Cliente es null"); // Log para verificar si es null
                 }
             }
+
             //report.setUser(user);
             return Optional.of(report);
         }

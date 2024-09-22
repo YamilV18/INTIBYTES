@@ -33,21 +33,23 @@ public class BillingServiceImpl implements BillingService {
         if (billingOpt.isPresent()) {
             Billing billing = billingOpt.get();
 
-            // Obtener cliente
-            ResponseEntity<Optional<SubscriptionDto>> subscriptionResponse = subscriptionFeign.listById(billing.getSubscriptionId());
+            // Obtener cliente (sin Optional)
+            ResponseEntity<SubscriptionDto> subscriptionResponse = subscriptionFeign.listById(billing.getSubscriptionId());
             if (subscriptionResponse.getStatusCode().is2xxSuccessful()) {
-                Optional<SubscriptionDto> subscriptiondto = subscriptionResponse.getBody();
-                if (subscriptiondto.isPresent()) {
-                    billing.setSubscription(subscriptiondto.get());
+                SubscriptionDto subscriptiondto = subscriptionResponse.getBody();  // Sin Optional
+                if (subscriptiondto != null) {
+                    billing.setSubscription(subscriptiondto);
                     System.out.println("Cliente obtenido: " + subscriptiondto); // Log para verificar cliente
                 } else {
                     System.out.println("Cliente es null"); // Log para verificar si es null
                 }
             }
+
             //billing.setSubscription(subscription);
             return Optional.of(billing);
         }
         return Optional.empty();
+
     }
 
     @Override

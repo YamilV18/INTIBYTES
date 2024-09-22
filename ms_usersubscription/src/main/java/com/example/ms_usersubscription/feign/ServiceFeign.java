@@ -12,6 +12,6 @@ import java.util.Optional;
 @FeignClient(name="ms-services-service", path="/service")
 public interface ServiceFeign {
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<ServiceDto>> getById(@PathVariable Integer id);
+    public ResponseEntity<ServiceDto> getById(@PathVariable Integer id);
 
 }

@@ -12,5 +12,5 @@ import java.util.Optional;
 
 public interface UserFeign {
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<UserDto>> listById(@PathVariable Integer id);
+    public ResponseEntity<UserDto> listById(@PathVariable Integer id);
 }

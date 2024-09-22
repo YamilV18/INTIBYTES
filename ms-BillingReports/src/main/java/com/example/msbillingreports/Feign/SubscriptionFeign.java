@@ -11,5 +11,5 @@ import java.util.Optional;
 @FeignClient(name="ms-usersubscription-service", path="/subscription")
 public interface SubscriptionFeign {
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<SubscriptionDto>> listById(@PathVariable Integer id);
+    public ResponseEntity<SubscriptionDto> listById(@PathVariable Integer id);
 }
