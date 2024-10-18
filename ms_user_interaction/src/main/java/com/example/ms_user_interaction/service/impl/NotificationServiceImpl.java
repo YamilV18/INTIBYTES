@@ -5,6 +5,7 @@ import com.example.ms_user_interaction.entity.Notification;
 import com.example.ms_user_interaction.feign.UserFeign;
 import com.example.ms_user_interaction.repository.NotificationRepository;
 import com.example.ms_user_interaction.service.NotificationService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @CircuitBreaker(name = "userService", fallbackMethod = "userFallback")
     public Optional<Notification> findById(Integer id) {
         Optional<Notification> notificationOpt = notificationRepository.findById(id);
         if (notificationOpt.isPresent()) {

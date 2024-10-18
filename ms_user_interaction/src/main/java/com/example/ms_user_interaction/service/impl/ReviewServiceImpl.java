@@ -4,6 +4,7 @@ package com.example.ms_user_interaction.service.impl;
 import com.example.ms_user_interaction.entity.Review;
 import com.example.ms_user_interaction.repository.ReviewRepository;
 import com.example.ms_user_interaction.service.ReviewService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @CircuitBreaker(name = "userService", fallbackMethod = "userFallback")
     public Optional<Review> findById(Integer id) {
         return reviewRepository.findById(id);
     }
