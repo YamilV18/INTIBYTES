@@ -10,5 +10,5 @@ public interface SubscriptionService {
     public Subscription save(Subscription subscription);
     public Subscription update(Subscription subscription);
     public Optional<Subscription> findById(Integer id);
-    public void deleteById(Integer id);
+    //public void deleteById(Integer id);
 }
