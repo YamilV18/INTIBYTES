@@ -1,0 +1,52 @@
+server:
+  port: 8085
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8090/eureka
+  instance:
+    hostname: localhost
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ms-BillingReports-service
+          uri: lb://ms-BillingReports-service
+          predicates:
+            - Path=/billing/**
+        - id: ms-BillingReports-service-report
+          uri: lb://ms-BillingReports-service
+          predicates:
+            - Path=/report/**
+
+        - id: ms-services-service-category
+          uri: lb://ms-services-service
+          predicates:
+            - Path=/category/**
+        - id: ms-services-service-service
+          uri: lb://ms-services-service
+          predicates:
+            - Path=/service/**
+
+        - id: ms-userinteraction-service-notification
+          uri: lb://ms-userinteraction-service
+          predicates:
+            - Path=/notification/**
+        - id: ms-userinteraction-service-review
+          uri: lb://ms-userinteraction-service
+          predicates:
+            - Path=/review/**
+
+        - id: ms-usersubscription-service-subscription
+          uri: lb://ms-usersubscription-service
+          predicates:
+            - Path=/subscription/**
+        - id: ms-usersubscription-service-user
+          uri: lb://ms-usersubscription-service
+          predicates:
+            - Path=/user/**
