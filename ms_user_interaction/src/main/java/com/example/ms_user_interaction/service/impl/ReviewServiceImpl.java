@@ -36,7 +36,6 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @CircuitBreaker(name = "userService", fallbackMethod = "userFallback")
     public Optional<Review> findById(Integer id) {
         return reviewRepository.findById(id);
     }

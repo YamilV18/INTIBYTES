@@ -7,6 +7,7 @@ import com.example.msbillingreports.Feign.UserSubscriptionFeign;
 import com.example.msbillingreports.Repository.BillingRepository;
 
 import com.example.msbillingreports.Service.BillingService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
+    @CircuitBreaker(name = "subscriptionService", fallbackMethod = "subscriptionFallback")
     public Optional<Billing> findById(Integer id) {
         Optional<Billing> billingOpt = billingRepository.findById(id);
         if (billingOpt.isPresent()) {
