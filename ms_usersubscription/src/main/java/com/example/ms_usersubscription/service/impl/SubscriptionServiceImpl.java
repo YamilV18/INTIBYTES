@@ -5,6 +5,7 @@ import com.example.ms_usersubscription.entity.Subscription;
 import com.example.ms_usersubscription.feign.ServiceFeign;
 import com.example.ms_usersubscription.repository.SubscriptionRepository;
 import com.example.ms_usersubscription.service.SubscriptionService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -87,6 +88,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @CircuitBreaker(name = "servicioListarPorIdCB", fallbackMethod = "servicioListarPorId")
     public Optional<Subscription> findById(Integer id) {
         Optional<Subscription> subscriptionOpt = subscriptionRepository.findById(id);
         if (subscriptionOpt.isPresent()) {
