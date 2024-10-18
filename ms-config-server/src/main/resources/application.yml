@@ -11,7 +11,7 @@ spring:
           search-paths: config-data
           #username:
           #password:
-          default-label: tester
+          default-label: david
   security:
     user:
       name: root
