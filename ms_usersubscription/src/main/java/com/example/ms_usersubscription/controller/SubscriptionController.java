@@ -27,10 +27,10 @@ public class SubscriptionController {
         return ResponseEntity.ok(savedSubscription);
     }
 
-    @PutMapping
-    public ResponseEntity<Subscription> update(@RequestBody Subscription subscription) {
-        Subscription updatedSubscription = subscriptionService.update(subscription);
-        return ResponseEntity.ok(updatedSubscription);
+    @PutMapping("/{id}")
+    public ResponseEntity<Subscription> update(@PathVariable Integer id, @RequestBody Subscription subscription) {
+        subscription.setId(id);
+        return ResponseEntity.ok(subscriptionService.update(subscription));
     }
 
     @GetMapping("/{id}")

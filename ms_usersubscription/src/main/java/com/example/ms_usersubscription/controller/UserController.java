@@ -2,6 +2,7 @@ package com.example.ms_usersubscription.controller;
 
 
 
+import com.example.ms_usersubscription.entity.Subscription;
 import com.example.ms_usersubscription.entity.User;
 import com.example.ms_usersubscription.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,10 @@ public class UserController {
         return ResponseEntity.ok(savedUser);
     }
 
-    @PutMapping
-    public ResponseEntity<User> update(@RequestBody User user) {
-        User updatedUser = userService.update(user);
-        return ResponseEntity.ok(updatedUser);
+    @PutMapping("/{id}")
+    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User user) {
+        user.setId(id);
+        return ResponseEntity.ok(userService.update(user));
     }
 
     @GetMapping("/{id}")

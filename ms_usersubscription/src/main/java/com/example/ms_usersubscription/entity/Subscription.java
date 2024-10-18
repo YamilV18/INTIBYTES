@@ -1,11 +1,11 @@
 package com.example.ms_usersubscription.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.ms_usersubscription.dto.ServiceDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,6 +16,13 @@ public class Subscription {
     private Date starDate;
     private Date endDate;
     private Status status;
-    private Integer userId;
     public enum Status {inactivo,activo}
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
+
+    private Integer serviceId;
+    @Transient
+    private ServiceDto service;
 }
