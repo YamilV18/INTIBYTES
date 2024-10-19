@@ -1,9 +1,13 @@
 package com.example.ms_user_interaction.controller;
 
 
+import com.example.ms_user_interaction.dto.ErrorResponseDto;
+import com.example.ms_user_interaction.dto.UserDto;
 import com.example.ms_user_interaction.entity.Review;
+import com.example.ms_user_interaction.feign.UserFeign;
 import com.example.ms_user_interaction.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
