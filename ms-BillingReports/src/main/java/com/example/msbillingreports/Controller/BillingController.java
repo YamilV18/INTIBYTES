@@ -42,7 +42,7 @@ public class BillingController {
         try {
             SubscriptionDto subscriptionDto = userSubscriptionFeign.getById(billing.getSubscriptionId()).getBody();
 
-            // Si el usuario no existe, se puede considerar que userDto es nulo
+            // Si el usuario no existe, se puede considerar que es nuloF
             if (subscriptionDto == null || subscriptionDto.getId() == null) {
                 String errorMessage = "Error: Usuario no encontrado.";
                 ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
