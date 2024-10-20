@@ -38,34 +38,35 @@ public class BillingController {
     }
 
     @PostMapping
-    public ResponseEntity<Billing> create(@RequestBody Billing billing) {
+    public ResponseEntity<Object> create(@RequestBody Billing billing) {
         try {
             SubscriptionDto subscriptionDto = userSubscriptionFeign.getById(billing.getSubscriptionId()).getBody();
 
-            // Si el usuario no existe, se puede considerar que es nuloF
+            // Si el usuario no existe, se puede considerar que es nulo
             if (subscriptionDto == null || subscriptionDto.getId() == null) {
                 String errorMessage = "Error: Usuario no encontrado.";
                 ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
             }
 
-            // Si el usuario es válido, guardar la notificación
-            Billing newNotification = billingService.save(billing);
-            return ResponseEntity.ok(newNotification);
+            // Si el usuario es válido, guardar la suscripción
+            Billing newSubscription = billingService.save(billing);
+            return ResponseEntity.ok(newSubscription);
 
         } catch (FeignException.NotFound e) {
             // Manejo específico del error 404
-            String errorMessage = "Error: Suscripcion no encontrado.";
+            String errorMessage = "Error: Suscripción no encontrada.";
             ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 
         } catch (Exception e) {
             // Manejo genérico de excepciones
-            String errorMessage = "Error al procesar la solicitud, revise la existencia de la suscripcion";
+            String errorMessage = "Error al procesar la solicitud, revise la existencia de la suscripción";
             ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Billing> update(@PathVariable Integer id,
