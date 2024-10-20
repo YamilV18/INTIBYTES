@@ -4,8 +4,10 @@ package com.example.ms_user_interaction.controller;
 import com.example.ms_user_interaction.dto.ErrorResponseDto;
 import com.example.ms_user_interaction.dto.UserDto;
 import com.example.ms_user_interaction.entity.Notification;
+import com.example.ms_user_interaction.entity.Review;
 import com.example.ms_user_interaction.feign.UserFeign;
 import com.example.ms_user_interaction.service.NotificationService;
+import com.example.ms_user_interaction.service.ReviewService;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,9 @@ public class NotificationController {
 
     @Autowired
     private UserFeign userFeign;
+
+    @Autowired
+    private ReviewService reviewService; // Agregamos ReviewService
 
     @GetMapping
     public ResponseEntity<List<Notification>> getAll() {
@@ -65,7 +70,7 @@ public class NotificationController {
 
         } catch (Exception e) {
             // Manejo genérico de excepciones
-            String errorMessage = "Error al procesar la solicitud.";
+            String errorMessage = "Error al procesar la solicitud, revise la existencia de el usuario o la reseña";
             ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }

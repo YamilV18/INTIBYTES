@@ -13,7 +13,8 @@ import java.util.Optional;
 public interface UserFeign {
 
     @GetMapping("/{id}")
-    ResponseEntity<UserDto> listById(@PathVariable Integer id);
+    public ResponseEntity<UserDto> listById(@PathVariable Integer id);
+
 
     // Puedes eliminar el método duplicado o corregirlo si tiene otra funcionalidad
     // Si es redundante, quítalo o cambia el nombre si tiene una lógica diferente
