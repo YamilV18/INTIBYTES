@@ -12,6 +12,9 @@ public interface UserSubscriptionFeign {
     @GetMapping("/subscription/{id}")
     public ResponseEntity<SubscriptionDto> listSubById(@PathVariable Integer id);
 
+    @GetMapping("/{id}") // Falta esta anotación para corregir el error
+    ResponseEntity<UserDto> getById(@PathVariable Integer id);
+
     @GetMapping("/user/{id}")
     public ResponseEntity<UserDto> listUserById(@PathVariable Integer id);
 }
