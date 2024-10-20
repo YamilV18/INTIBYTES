@@ -38,9 +38,37 @@ public class BillingController {
     }
 
     @PostMapping
-    public ResponseEntity<Billing> create(@RequestBody Billing billing) {
-        return ResponseEntity.ok(billingService.save(billing));
+    public ResponseEntity<Object> create(@RequestBody Billing billing) {
+        try {
+            // Obtiene la suscripción usando el Feign client
+            ResponseEntity<SubscriptionDto> response = userSubscriptionFeign.getById(billing.getSubscriptionId());
+            SubscriptionDto subscriptionDto = response.getBody();
+
+            // Verificar si la suscripción es nula o no tiene un ID
+            if (subscriptionDto == null || subscriptionDto.getId() == null) {
+                String errorMessage = "Error: Suscripción no encontrada.";
+                ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            }
+
+            // Si la suscripción es válida, se guarda la facturación
+            Billing newBilling = billingService.save(billing);
+            return ResponseEntity.ok(newBilling);
+
+        } catch (FeignException.NotFound e) {
+            // Manejo del error 404 cuando no se encuentra la suscripción en el servicio remoto
+            String errorMessage = "Error: No se encontró la suscripción con el ID proporcionado.";
+            ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+
+        } catch (Exception e) {
+            // Manejo genérico de excepciones
+            String errorMessage = "Error al procesar la solicitud, revise la existencia de la suscripción.";
+            ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
+
 
 
     @PutMapping("/{id}")
