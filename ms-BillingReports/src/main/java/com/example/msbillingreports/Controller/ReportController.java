@@ -24,6 +24,9 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
+    @Autowired
+    private UserSubscriptionFeign userSubscriptionFeign;
+
     @GetMapping
     public ResponseEntity<List<Report>> getAll() {
         return ResponseEntity.ok(reportService.list());
@@ -33,15 +36,17 @@ public class ReportController {
         return ResponseEntity.ok(reportService.findById(id));
     }
     @PostMapping
-    public ResponseEntity<Report> create(@RequestBody Report report) {
+    public ResponseEntity<Object> create(@RequestBody Report report) {
         try {
-            UserDto userDto = UserSubscriptionFeign.listUserById(report.getUserId()).getBody();
+            // Llamada al servicio Feign para obtener el usuario
+            UserDto userDto = userSubscriptionFeign.listUserById(report.getUserId()).getBody();
 
             if (userDto == null || userDto.getId() == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ErrorResponseDto("Error: usuario no encontrada."));
+                        .body(new ErrorResponseDto("Error: Usuario no encontrado."));
             }
 
+            // Si el usuario es válido, se guarda el reporte
             Report newReport = reportService.save(report);
             return ResponseEntity.ok(newReport);
 
@@ -50,9 +55,10 @@ public class ReportController {
                     .body(new ErrorResponseDto("Error: No se encontró el usuario con el ID proporcionado."));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponseDto("Error al procesar la solicitud, revise la existencia de la suscripción."));
+                    .body(new ErrorResponseDto("Error al procesar la solicitud, revise la existencia del usuario."));
         }
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Report> update(@PathVariable Integer id,
                                            @RequestBody Report report) {
