@@ -44,7 +44,7 @@ public class BillingController {
             System.out.println("Verificando suscripción con ID: " + billing.getSubscriptionId());
 
             // Llamada al servicio Feign
-            ResponseEntity<SubscriptionDto> response = userSubscriptionFeign.getById(billing.getSubscriptionId());
+            ResponseEntity<SubscriptionDto> response = userSubscriptionFeign.listSubById(billing.getSubscriptionId());
             SubscriptionDto subscriptionDto = response.getBody();
 
             // Más logging para verificar la respuesta
