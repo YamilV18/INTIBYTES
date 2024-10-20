@@ -40,11 +40,17 @@ public class BillingController {
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody Billing billing) {
         try {
-            // Obtiene la suscripción usando el Feign client
+            // Logging para verificar el ID que se está enviando
+            System.out.println("Verificando suscripción con ID: " + billing.getSubscriptionId());
+
+            // Llamada al servicio Feign
             ResponseEntity<SubscriptionDto> response = userSubscriptionFeign.getById(billing.getSubscriptionId());
             SubscriptionDto subscriptionDto = response.getBody();
 
-            // Verificar si la suscripción es nula o no tiene un ID
+            // Más logging para verificar la respuesta
+            System.out.println("Respuesta del servicio de suscripciones: " + subscriptionDto);
+
+            // Si la suscripción no existe o es nula
             if (subscriptionDto == null || subscriptionDto.getId() == null) {
                 String errorMessage = "Error: Suscripción no encontrada.";
                 ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
@@ -68,6 +74,7 @@ public class BillingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+
 
 
 
