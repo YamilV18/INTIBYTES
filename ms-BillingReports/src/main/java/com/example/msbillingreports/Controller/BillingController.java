@@ -40,40 +40,25 @@ public class BillingController {
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody Billing billing) {
         try {
-            // Logging para verificar el ID que se está enviando
-            System.out.println("Verificando suscripción con ID: " + billing.getSubscriptionId());
+            SubscriptionDto subscriptionDto = userSubscriptionFeign.listSubById(billing.getSubscriptionId()).getBody();
 
-            // Llamada al servicio Feign
-            ResponseEntity<SubscriptionDto> response = userSubscriptionFeign.listSubById(billing.getSubscriptionId());
-            SubscriptionDto subscriptionDto = response.getBody();
-
-            // Más logging para verificar la respuesta
-            System.out.println("Respuesta del servicio de suscripciones: " + subscriptionDto);
-
-            // Si la suscripción no existe o es nula
             if (subscriptionDto == null || subscriptionDto.getId() == null) {
-                String errorMessage = "Error: Suscripción no encontrada.";
-                ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ErrorResponseDto("Error: Suscripción no encontrada."));
             }
 
-            // Si la suscripción es válida, se guarda la facturación
             Billing newBilling = billingService.save(billing);
             return ResponseEntity.ok(newBilling);
 
         } catch (FeignException.NotFound e) {
-            // Manejo del error 404 cuando no se encuentra la suscripción en el servicio remoto
-            String errorMessage = "Error: No se encontró la suscripción con el ID proporcionado.";
-            ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponseDto("Error: No se encontró la suscripción con el ID proporcionado."));
         } catch (Exception e) {
-            // Manejo genérico de excepciones
-            String errorMessage = "Error al procesar la solicitud, revise la existencia de la suscripción.";
-            ErrorResponseDto errorResponse = new ErrorResponseDto(errorMessage);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponseDto("Error al procesar la solicitud, revise la existencia de la suscripción."));
         }
     }
+
 
 
 
