@@ -10,6 +10,9 @@ import com.example.msbillingreports.Service.ReportService;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import com.example.msbillingreports.Entity.Billing;
+import com.example.msbillingreports.Service.BillingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,13 +62,9 @@ public class BillingController {
         }
     }
 
-
-
-
-
     @PutMapping("/{id}")
     public ResponseEntity<Billing> update(@PathVariable Integer id,
-                                          @RequestBody Billing billing) {
+                                         @RequestBody Billing billing) {
         billing.setId(id);
         return ResponseEntity.ok(billingService.save(billing));
     }
@@ -74,4 +73,5 @@ public class BillingController {
         billingService.delete(id);
         return ResponseEntity.ok(billingService.list());
     }
+}
 }

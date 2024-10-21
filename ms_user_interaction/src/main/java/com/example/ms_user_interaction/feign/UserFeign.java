@@ -11,6 +11,18 @@ import java.util.Optional;
 @FeignClient(name="ms-usersubscription-service", path="/user")
 
 public interface UserFeign {
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> listById(@PathVariable Integer id);
+
+
+    // Puedes eliminar el método duplicado o corregirlo si tiene otra funcionalidad
+    // Si es redundante, quítalo o cambia el nombre si tiene una lógica diferente
+    @GetMapping("/{id}") // Falta esta anotación para corregir el error
+    ResponseEntity<UserDto> getById(@PathVariable Integer id);
+
+    // Metodo por defecto en caso de fallback
+    default ResponseEntity<UserDto> userListById(Integer id, Exception e) {
+        return ResponseEntity.ok(new UserDto()); // Lógica de fallback
+    }
 }

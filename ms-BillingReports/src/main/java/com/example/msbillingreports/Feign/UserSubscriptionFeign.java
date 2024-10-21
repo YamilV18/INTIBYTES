@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UserSubscriptionFeign {
     @GetMapping("/subscription/{id}")
     public ResponseEntity<SubscriptionDto> listSubById(@PathVariable Integer id);
-
-
     @GetMapping("/user/{id}")
     public ResponseEntity<UserDto> listUserById(@PathVariable Integer id);
 }

@@ -5,6 +5,8 @@ import com.example.msservices.service.CategoryService;
 import com.example.msservices.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import com.example.msservices.service.ServiceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +18,10 @@ import java.util.Optional;
 public class ServiceController {
     @Autowired
     private ServiceService serviceService;
+
     @Autowired
     private CategoryService categoryService;
+
     @GetMapping
     public ResponseEntity<List<Service>> getAll() {
         return ResponseEntity.ok(serviceService.findAll());
@@ -37,6 +41,7 @@ public class ServiceController {
         // Si la categoría existe, se guarda el servicio
         Service newService = serviceService.save(service);
         return ResponseEntity.ok(newService);
+
     }
     @PutMapping("/{id}")
     public ResponseEntity<Service> update(@PathVariable Integer id, @RequestBody Service service) {

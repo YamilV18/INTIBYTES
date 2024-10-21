@@ -20,3 +20,4 @@ public interface ServiceFeign {
         return ResponseEntity.ok(new ServiceDto());
     }
 }
+

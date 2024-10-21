@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,13 +62,16 @@ public class ReportController {
     @PutMapping("/{id}")
     public ResponseEntity<Report> update(@PathVariable Integer id,
                                          @RequestBody Report report) {
-        report.setId(id);
+            report.setId(id);
         return ResponseEntity.ok(reportService.save(report));
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<List<Report>> delete(@PathVariable Integer id) {
         reportService.delete(id);
         return ResponseEntity.ok(reportService.list());
     }
 
+
+}
 }

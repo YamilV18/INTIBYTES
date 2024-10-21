@@ -11,7 +11,6 @@ spring:
           search-paths: config-data
           #username:
           #password:
-
           default-label: newtest
   security:
     user:
