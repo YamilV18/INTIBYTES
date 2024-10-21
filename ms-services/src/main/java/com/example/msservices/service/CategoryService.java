@@ -11,4 +11,7 @@ public interface CategoryService {
     public Category save(Category category);
     public Category update(Category category);
     public void delete(Integer id);
+
+    // Método para verificar si existe la categoría
+    public boolean existsById(Integer id);
 }
