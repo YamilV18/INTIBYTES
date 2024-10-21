@@ -5,6 +5,7 @@ import com.example.msbillingreports.Entity.Report;
 import com.example.msbillingreports.Feign.UserSubscriptionFeign;
 import com.example.msbillingreports.Repository.ReportRepository;
 import com.example.msbillingreports.Service.ReportService; // Asegúrate de importar la interfaz
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ public class ReportServiceImpl implements ReportService {  // Implementa la inte
     }
 
     @Override
+    @CircuitBreaker(name = "userService", fallbackMethod = "userFallback")
     public Optional<Report> findById(Integer id) {
         Optional<Report> reportOpt = reportRepository.findById(id);
         if (reportOpt.isPresent()) {

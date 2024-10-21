@@ -21,34 +21,54 @@ spring:
           uri: lb://ms-BillingReports-service
           predicates:
             - Path=/billing/**
+          filters:
+            - AuthFilter
         - id: ms-BillingReports-service-report
           uri: lb://ms-BillingReports-service
           predicates:
             - Path=/report/**
+          filters:
+            - AuthFilter
 
         - id: ms-services-service-category
           uri: lb://ms-services-service
           predicates:
             - Path=/category/**
+          filters:
+            - AuthFilter
         - id: ms-services-service-service
           uri: lb://ms-services-service
           predicates:
             - Path=/service/**
+          filters:
+            - AuthFilter
 
         - id: ms-userinteraction-service-notification
           uri: lb://ms-userinteraction-service
           predicates:
             - Path=/notification/**
+          filters:
+            - AuthFilter
         - id: ms-userinteraction-service-review
           uri: lb://ms-userinteraction-service
           predicates:
             - Path=/review/**
+          filters:
+            - AuthFilter
 
         - id: ms-usersubscription-service-subscription
           uri: lb://ms-usersubscription-service
           predicates:
             - Path=/subscription/**
+          filters:
+            - AuthFilter
         - id: ms-usersubscription-service-user
           uri: lb://ms-usersubscription-service
           predicates:
             - Path=/user/**
+          filters:
+            - AuthFilter
+        - id: ms-auth-service
+          uri: lb://ms-auth-service
+          predicates:
+            - Path=/auth/**
