@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AuthUserServiceImpl implements AuthUserService {
+
     @Autowired
     AuthUserRepository authUserRepository;
     @Autowired
@@ -21,6 +24,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     @Autowired
     JwtProvider jwtProvider;
 
+    private Set<String> revokedTokens = new HashSet<>();
 
     @Override
     public AuthUser save(AuthUserDto authUserDto) {
@@ -53,5 +57,10 @@ public class AuthUserServiceImpl implements AuthUserService {
         if (!authUserRepository.findByUserName(username).isPresent())
             return null;
         return new TokenDto(token);
+    }
+    @Override
+    public void logout(String token) {
+        // Agregar el token a la lista negra para invalidarlo
+        revokedTokens.add(token);
     }
 }
