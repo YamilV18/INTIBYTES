@@ -33,10 +33,10 @@ public class ReviewController {
         return ResponseEntity.ok(savedCategory);
     }
 
-    @PutMapping
-    public ResponseEntity<Review> update(@RequestBody Review review) {
-        Review updatedReview = reviewService.update(review);
-        return ResponseEntity.ok(updatedReview);
+    @PutMapping("/{id}")
+    public ResponseEntity<Review> update(@PathVariable Integer id, @RequestBody Review review) {
+        review.setId(id);
+        return ResponseEntity.ok(reviewService.save(review));
     }
 
     @GetMapping("/{id}")
