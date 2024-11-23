@@ -1,10 +1,6 @@
 server:
   port: 3000
 
-spring:
-  application:
-    name: ms-chat-socket
-
 eureka:
   client:
     serviceUrl:
