@@ -78,6 +78,12 @@ spring:
             - Path=/user/**
           filters:
             - AuthFilter
+        - id: ms-chat-socket
+          uri: lb://ms-chat-socket
+          predicates:
+            - Path=/chat-socket/**
+          filters:
+            - AuthFilter
         - id: ms-auth-service
           uri: lb://ms-auth-service
           predicates:
