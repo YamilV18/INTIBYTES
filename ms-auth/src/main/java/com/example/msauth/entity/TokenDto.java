@@ -11,4 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TokenDto {
     private String token;
+    private String userName;
+
+    public TokenDto(String token) {
+        this.token = token;
+    }
 }

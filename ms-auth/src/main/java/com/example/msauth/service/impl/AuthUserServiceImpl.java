@@ -44,8 +44,10 @@ public class AuthUserServiceImpl implements AuthUserService {
         Optional<AuthUser> user = authUserRepository.findByUserName(authUserDto.getUserName());
         if (!user.isPresent())
             return null;
-        if (passwordEncoder.matches(authUserDto.getPassword(), user.get().getPassword()))
-            return new TokenDto(jwtProvider.createToken(user.get()));
+        if (passwordEncoder.matches(authUserDto.getPassword(), user.get().getPassword())) {
+            String token = jwtProvider.createToken(user.get());
+            return new TokenDto(token, user.get().getUserName());
+        }
         return null;
     }
 
